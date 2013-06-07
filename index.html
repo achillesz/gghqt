@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    <title>个股首页</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <script type="text/javascript" src="http://img.hexun.com/base/version/hx_base.min1.1.js"></script>
+    <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+    <link href="css/style.css" rel="stylesheet" type="text/css"  charset="gb2312" />
+    <script>
+        var hqxx_code  = "sse600519";//行情信息
+        var xgzq_Hcode = "hkex90001,hkex90002,hkex90007";//相关证券-港股
+        var xgzq_Acode = "sse600519,sse600585,szse001696,szse300315,sse600028";//相关证券-A股
+    </script>
+    <script type="text/javascript" src="js/GGstock.js"></script>
+</head>
+
+<body>
+<!--头 start-->
+<link type="text/css" rel="stylesheet" href="http://img.hexun.com/css/zt/data_head.css"/>
+<script src="http://img.hexun.com/js/2010/hexunjs.js"></script>
+<div class="detail_header2010">
+    <!-- 导航登录等 -->
+    <div id="newsHeaderNav">
+        <table width="100%" height="20" cellspacing="0" cellpadding="0" border="0">
+            <tbody><tr>
+                <td>
+                    <ul class="homeword">
+                        <li><a target="_blank" href="http://www.hexun.com/">和讯首页</a></li>
+                        <li><a target="_blank" href="http://news.hexun.com/">新闻</a></li>
+                        <li><a target="_blank" href="http://stock.hexun.com/">股票</a></li>
+                        <li><a target="_blank" href="http://funds.hexun.com/">基金</a></li>
+                        <li><a target="_blank" href="http://datainfo.stock.hexun.com/">股票数据</a></li>
+                        <li><a target="_blank" href="http://vol.stock.hexun.com/">资金流向</a></li>
+                        <li><a target="_blank" href="http://funds.money.hexun.com/fundsdata/focus/data1.htm">基金数据</a></li>
+                        <li><a target="_blank" href="http://quote.hexun.com/default.htm#stock">行情中心</a></li>
+                        <li><a target="_blank" href="http://guba.hexun.com/default.htm">股吧</a></li>
+                        <li><a target="_blank" href="http://jijinba.hexun.com/">基金吧</a></li>
+                        <li><a target="_blank" href="http://t.hexun.com/" style="color:#f00">微博</a></li>
+                    </ul>
+                </td>
+                <td align="center">
+                    <!--登录注册-->
+                    <div id="hexunMember_liveDisplay"></div>
+                    <link href='http://login.tool.hexun.com/OtherInterFace/style/newbase.css' rel='stylesheet' type='text/css' />
+                    <script src="http://login.tool.hexun.com/OtherInterFace/js/popup.js" type="text/javascript" charset="gb2312"></script>
+                    <script charset="gb2312" type="text/javascript" language="javascript">
+                        var href = window.location.href;
+                        hexunMember_loginSetup_signOutURL = href; //登出地址
+                        hexunMember_loginSetup_noLoginDisplayMsg = ""; //没登陆的提示
+                        hexunMember_loginSetup_noLoginDisplayFlag = "|"; //登录和注册中间的分隔符号 或 用户名与登出中间的分隔符号，不需要分隔符可以为空
+                        hexunMember_loginSetup_islogined_isDisplay = true; //如果是登陆状态，true=显示用户名和登出按钮等信息,flase=不显示任何信息
+                        hexunMember_loginSetup_referrer = document.referrer; //请不要修改此项
+                        hexunMember_loginSetup_MastLogin = 0; //如果需要不登陆就一直弹窗，在此设置一下弹窗时间间隔(秒)。如果等于0本项无效
+                    </script>
+                    <!--登录注册over-->
+                </td>
+            </tr>
+            </tbody></table>
+        <div class="clear"></div>
+    </div>
+    <!-- logo等 -->
+    <div id="logoetc">
+        <div class="logo"><a target="_blank" href="http://www.hexun.com"><img border="0" alt="和讯" src="http://img.hexun.com/img/2010/logo-hexun.gif"/></a><a id="subChannelLogo" target="_blank" href="http://news.hexun.com"><img border="0" src="img/zlkp_logo.gif"/></a></div>
+        <div id="hexunCalendar" class="date"></div>
+        <div class="seach_head">
+            <form target="_blank" method="post" action="http://data.stock.hexun.com/search/default.aspx" onsubmit="return false" name="sb_form" id="formSearch">
+                <table width="100%" cellspacing="0" cellpadding="0" border="0" id="Table1">
+                    <tbody><tr>
+                        <td>
+                            <input type="radio" value="stockdata" checked="" name="radio1" id="stockdata"/>股票/基金
+                            <input type="radio" value="stockquote" name="radio1" id="stockquote"/>实时行情
+                            <input type="radio" value="stockbar" name="radio1" id="stockbar"/>股吧
+                        </td>
+                        <td>
+                            <div>
+                                <input type="text" onblur="Suggest.blurObj()" onfocus="Suggest.focusObj()" onkeydown="Suggest.keyDown(event);if(event.keyCode == 13) StockDataSearch2009_Submit()" autocomplete="off" value="代码/名称/拼音" class="input2" name="msn_stockid" id="ajaxinput" style="color: rgb(153, 153, 153);"/>
+                            </div>
+                            <div class="floattable" id="ajaxdiv"></div>
+                        </td>
+                        <td>
+                            <input type="hidden" id="typeqgwp" value="a" name="typeqgwp"/>
+                            <input type="hidden" value="" id="sw" name="sw"/>
+                            <input type="image" src="http://img.hexun.com/zt/2010/btn_cx.gif" name="ajaxbutton" onclick="StockDataSearch2009_Submit()" id="ajaxbutton" style="vertical-align:middle;"/>
+                            <a target="_blank" href="http://stock.hexun.com/mystock/after.aspx"><img border="0" align="absMiddle" src="http://img.hexun.com/zt/2010/btn_gp.gif"/></a>
+                            <a target="_blank" href="http://wizard.stock.hexun.com/bigtrade/"><img border="0" align="absMiddle" src="http://img.hexun.com/zt/2010/btn_xzhq.gif"/></a>
+                        </td>
+                    </tr>
+                    </tbody></table>
+            </form>
+            <script type="text/javascript" language="javascript" src="http://data.stock.hexun.com/js/stocksearch.js"></script>
+        </div>
+    </div>
+    <!--一级导航结束-->
+    <div class="clear"></div>
+    <script src="http://login.tool.hexun.com/OtherInterFace/login_2010_Style02.aspx" type="text/javascript" charset="gb2312"></script>
+</div>
+<!--头end-->
+<div class="container bc">
+    <!--导航-->
+    <div class="navs pl10">
+        <a href="http://www.hexun.com">和讯网</a> > <a href="#">行情中心</a> > <a href="#">实时行情</a> > <span>贵州茅台(600519)</span>
+    </div>
+</div>
+<!--重点关注-->
+<div class="nav_zd bc">
+    <strong>重点关注：</strong>
+    <ul class="clearfix">
+        <li><a href="#">实时行情</a></li>
+        <li><a href="#">资金流向</a></li>
+        <li><a href="#">盘中明细</a></li>
+        <li><a href="#">资讯聚合</a></li>
+        <li><a href="#">公司简介</a></li>
+        <li><a href="#">股权结构</a></li>
+        <li><a href="#">流通股东</a></li>
+        <li><a href="#">高管</a></li>
+        <li><a href="#">财务数据</a></li>
+        <li><a href="#">上市发行</a></li>
+        <li><a href="#">关注度</a></li>
+        <li><a href="#">技术点评</a></li>
+        <li><a href="#">经营分析</a></li>
+        <li class="old_link"><a href="#">返回旧版</a></li>
+    </ul>
+</div>
+<!--重点关注 e-->
+
+<!--全球市场-->
+<div class="container bc stock_info">
+    <iframe width="958" scrolling="no" height="28" frameborder="0" src="http://data.stock.hexun.com/iframe/iframe_markets.htm"></iframe>
+</div>
+<!--全球市场 e-->
+
+<!--行情情息 s-->
+<div class="bank_infos_b mt10 bc">
+    <div class="bank_infosBg clearfix">
+        <div class="bank_infos-tit fl">
+            <h1 class="stockName pl20 fl" style="*margin-top:4px;_margin-top:0"><span id="q_sname"></span></h1>
+            <h1 class="fl ml5" style="padding-top:8px"><span id="q_scode"></span></h1>
+        </div>
+        <div class="bank_infos-finance fl clearfix">
+            <span class="fl">财务：</span><em class="star_o"><em class="star_i" style="width:50%"></em></em>
+        </div>
+        <ul class="bank_infos-list fl"><li>所属行业：食品饮料</li><li>所属概念：奢侈品 高转送 春节</li></ul>
+        <div class="fr bank_infos-zs">
+            <span id="zs_stock_topbn" class="zs_stock_bn_off" onclick="addIStock(this)">+ 自选 (<em></em>+人)</span>
+            <a target="_blank" href="http://mymoney.hexun.com/istock/default.aspx" class="fl mt5 ml10">我的股票</a>
+        </div>
+    </div>
+</div>
+<div class="bank_infos_con container bc">
+    <div class="price_time fl">
+        <h1>
+            <table width="100%">
+                <tr>
+                    <td><div class="price_a fr"><span id="q_current">-- </span></div></td>
+                    <td><div class="price_b fr"><span id="q_updownprice">-- </span><span id="q_upDownRate">(--) </span></div></td>
+                </tr>
+            </table>
+            <div class="price_txt">[<span id="q_state">未交易</span>]&nbsp;&nbsp;截止 <span id="q_time">---</span></div>
+        </h1>
+    </div>
+    <ul class="other fl">
+        <li>最高：<span id="q_zg">--</span></li>
+        <li>昨收：<span id="q_zs">--</span></li>
+        <li>涨停：<span id="q_zt">--</span></li>
+        <li>成交量：<span id="q_cjl">--</span></li>
+        <li class="w">　外　盘：<span id="q_wp">--</span></li>
+        <li><a href="#">总市值</a>：<span id="q_zsz">--</span></li>
+        <li>最低：<span id="q_zd">--</span></li>
+        <li>今开：<span id="q_jk">--</span></li>
+        <li>跌停：<span id="q_dt">--</span></li>
+        <li>成交额：<span id="q_cje">--</span></li>
+        <li class="w">　内　盘：<span id="q_np">--</span></li>
+        <li><a href="#">市盈率</a>：<span id="q_syl">--</span></li>
+        <li>换手：<span id="q_hs">--</span></li>
+        <li>量比：<span id="q_lb">--</span></li>
+        <li>振幅：<span id="q_zf">--</span></li>
+        <li>委&nbsp;&nbsp;比：<span id="q_wb">--</span></li>
+        <li class="w"><a href="#">每股收益</a>：<span id="q_mgsy">--</span></li>
+        <li><a href="#">市净率</a>：<span id="q_sjl">--</span></li>
+    </ul>
+</div>
+<!--行情情息 e-->
+<div class="main bc mt10 mb10">
+    <div class="section fl">
+        <div class="hxTit">
+            <ul class="fl timeLine">
+                <li class="fs selected"><a href="#"><span>分时</span></a></li>
+                <li class="fiveDay"><a href="#"><span>5日</span></a></li>
+                <li class="fiveMin"><a href="#"><span>5分</span></a></li>
+                <li class="fifteen"><a href="#"><span>15分</span></a></li>
+                <li class="thrTen"><a href="#"><span>30分</span></a></li>
+                <li class="sixTen"><a href="#"><span>60分</span></a></li>
+                <li class="day"><a href="#"><span>日线</span></a></li>
+                <li class="month"><a href="#"><span>月线</span></a></li>
+                <li class="sean"><a href="#"><span>季线</span></a></li>
+                <li class="year"><a href="#"><span>年线</span></a></li>
+            </ul>
+            <!--search s-->
+            <div class="fl searhBox ml15">
+                <input type="text" id="suggestTest" value="请输入指数/股票" class="search-text fl"><input type="button" id="compare" value="" class="search-sub fl">
+            </div>
+            <!--search e-->
+            <a href="#" class="fl chexiao1"></a>
+            <div class="tools fl ml15 mt7">
+            <a href="#" class="fl ruler"></a>
+            <a href="#" class="fl pencile"></a>
+            <a href="#" class="fl quan"></a>
+            <a href="#" class="fl set"></a>
+            <a href="#" class="fl fullScreen"></a>
+            </div>
+
+
+        </div>
+        <div class="flahBox">
+            <img src="images/temp1.png" alt=""/>
+        </div>
+    </div>
+    <div class="silder fl">
+        <h2 class="silderTit lh30 pl10">行情报价</h2>
+        <div id="hq">
+            <div class="hq-header co75 pl10">
+                <span>委 比：32.54% </span>
+                <span class="ml10">微 差：21.14%</span>
+            </div>
+            <table class="hq-table">
+                <tr><td class="hq_w1">卖⑤</td><td class="hq_w2"><span class="color_c00"> 11.83</span></td><td class="hq_w3">现手</td><td class="hq_w4"><span class="color_090">453</span></td></tr>
+                <tr><td class="hq_w1">卖⑤</td><td><span class="color_c00"> 11.8300</span></td><td>现手</td><td class="color_090">453000</td></tr>
+                <tr><td class="hq_w1">卖⑤</td><td><span class="color_c00"> 11.83</span></td><td>&nbsp;</td><td class="color_090"> 453000</td></tr>
+                <tr><td class="hq_w1">卖⑤</td><td><span class="color_c00"> 11.83</span></td><td>现手</td><td class="color_090"> 453</td></tr>
+                <tr><td class="hq_w1">卖⑤</td><td><span> 11.83</span></td><td>现手</td><td class="color_090"> 453</td></tr>
+                <tr><td class="hq_w1">卖⑤</td><td><span> 11.83</span></td><td>现手</td><td class="color_090"> 453</td></tr>
+                <tr><td class="hq_w1">卖⑤</td><td><span> 11.83</span></td><td>现手</td><td class="color_090"> 453</td></tr>
+                <tr><td class="hq_w1">卖⑤</td><td><span> 11.83</span></td><td>现手</td><td> 453</td></tr>
+                <tr><td class="hq_w1">卖⑤</td><td><span> 11.83</span></td><td>现手</td><td> 453</td></tr>
+                <tr><td class="hq_w1">卖⑤</td><td><span> 11.83</span></td><td>现手</td><td> 453</td></tr>
+                <tr><td class="hq_w1">卖⑤</td><td><span> 11.83</span></td><td>现手</td><td> 453</td></tr>
+            </table>
+        </div>
+        <h2 class="silderTit lh30 add-top-border"><ul class="navList clearfix"><li>明细</li><li>大单</li><li>分价</li></ul></h2>
+        <div id="mx">
+
+        </div>
+        <h2 class="silderTit lh26 pl10">板块相关报价</h2>
+        <div id="bk"></div>
+        <h2 class="silderTit lh26 pl10">分时走势</h2>
+        <div id="fs"></div>
+
+
+    </div>
+
+</div>
+<!--登录弹窗 s-->
+
+<!--登录弹窗 e-->
+<!--自选股弹窗 s-->
+<div id="msgbox2" style="display:none;" class="msgbox2">
+    <div class="close">
+        <a onclick="HX.$(&quot;msgbox2&quot;).style.display=&quot;none&quot;" href="javascript:void(0);"><img src="http://stockdata.stock.hexun.com/rzrq/img/btn_close.gif"></a>
+    </div>
+    <b>自选股添加成功</b><br>现在就去 <a href="http://mymoney.hexun.com/istock/" target="_blank" class="c495"><u>我的自选股</u></a>
+</div>
+<!--自选股弹窗 e-->
+<!--印象弹窗 s-->
+<!--<div id="msgbox3" style="display:none;" class="msgbox2">
+    <div class="close">
+        <a onclick="HX.$(&quot;msgbox3&quot;).style.display=&quot;none&quot;" href="javascript:void(0);"><img src="http://stockdata.stock.hexun.com/rzrq/img/btn_close.gif"></a>
+    </div>
+    <b>你已赞同该印象，谢谢支持！</b>
+</div>-->
+<!--印象弹窗 e-->
+
+
+<!--返回顶部 s-->
+<div id="toTop"><div class="toTop-m"><a href="javascript:void(0)"></a></div></div>
+<script type="text/javascript" src="js/toTop.js"></script>
+<!--返回顶部 e-->
+
+
+<!--尾-->
+<link rel="stylesheet" type="text/css" href="http://img.hexun.com/news/2010/foot2010.css" />
+<div id="foot2010">
+    <div class="link">
+        <a target="_blank" href="http://media.news.hexun.com/feedback/support.htm" id="hexunUserSuggest">和讯恭候您的意见</a> -
+        <a target="_blank" href="http://corp.hexun.com/contact/index.html">联系我们</a> -
+        <a target="_blank" href="http://corp.hexun.com/default/index.html">关于我们</a> -
+        <a target="_blank" href="http://corp.hexun.com/adcenter/index.html">广告服务</a>
+    </div>
+    <div class="copyright">
+        本站郑重声明：和讯公司系政府批准的证券投资咨询机构[ZX0005]。所载文章、数据仅供参考，使用前请核实，风险自负。<br />Copyright&copy; 和讯网 和讯信息科技有限公司 All Rights Reserved 版权所有 复制必究
+    </div>
+</div>
+
+
+<script type="text/javascript" src="js/search.js"></script>
+<script type="text/javascript">
+    (function(){
+        var suggest = new hxSuggest('suggestTest', 'http://data.stock.hexun.com/include/AjaxSearch2011.ashx');
+
+    })();
+</script>
+</body>
+</html>
