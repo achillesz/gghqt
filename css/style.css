@@ -305,25 +305,16 @@ a:hover{text-decoration:underline; color:#900}
 .lh26{ height:26px; line-height:26px;}
 .silder{ width:201px; margin-left:1px;}
 /*silderTit*/
-.silderTit{ border-bottom:1px solid #bebebe; background-color:#fafafa; font-size:12px; font-weight:bold; color:#333;}
+.silderTit{ border-bottom:1px solid #bebebe; background-color:#fafafa; font-size:12px; font-family:"microsoft yahei"; font-weight:bold;}
 .add-top-border{ border-top:1px solid #bebebe;}
-.navList{ margin-left:10px; margin-top:5px; position:relative;bottom:-1px;}
-.navList li{ margin-right:7px; float:left; display:inline; padding:0 6px;  background-color:#fff; cursor:pointer; height:25px; line-height:25px;}
-.navList .navList-on{border:1px solid #e3e3e3; border-bottom:none;}
+.navList{}
+.navList li{ float:left; display:inline;}
 .hq-header{}
 .hq-table{}
 .co75{ color:#757575;}
 .hq-table{ width:100%;}
 .hq_w1{ width:55px; padding-left:10px;}
 .hq_w3{ width:40px;}
-/*mx*/
-.mx-table{ width:181px;}
-.mx-w1{ width:62px; padding-left:10px;}
-.mx-w2{ width:44px;}
-.mx-table img{ vertical-align:-2px;}
-.fixBox{ height:264px; overflow:hidden;}
-.scrollBar{ width:5px; height:230px; padding-top:10px; padding-bottom:10px; background:url("../images/scrollBg.png") left top no-repeat; position:absolute; right:7px; top:12px;}
-.scrollBars{  position:absolute; left:-4px; top:10px; width:15px; height:14px; background:url("../images/slideBar.png") left top no-repeat; cursor:pointer;}
 
 
 
