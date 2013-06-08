@@ -262,42 +262,59 @@ SimulateSelect.prototype = {
 	}
 };
 /**/
-var model = {
-    "hq":{"a":"32.54%","b":'21.14%',"body":[
-        {"c1":"成交","c2":"11.79","c3":"现手","c4":"1927"},
-        {"c1":"成交","c2":"11.79","c3":"&nbsp;","c4":"1927"},
-        {"c1":"成交","c2":"11.79","c3":"&nbsp;","c4":"1927"},
-        {"c1":"成交","c2":"11.79","c3":"现手","c4":"1927"},
-        {"c1":"成交","c2":"11.79","c3":"现手","c4":"1927"},
-        {"c1":"成交","c2":"11.79","c3":"现手","c4":"1927"},
-        {"c1":"成交","c2":"11.79","c3":"现手","c4":"1927"},
-        {"c1":"成交","c2":"11.79","c3":"现手","c4":"1927"},
-        {"c1":"成交","c2":"11.79","c3":"现手","c4":"1927"},
-        {"c1":"成交","c2":"11.79","c3":"现手","c4":"1927"},
-        {"c1":"成交","c2":"11.79","c3":"现手","c4":"1927"}
-    ]},
-    "mx":{
-        "success":true,
-        data:[
-            {"c1":"15：00：04","c2":"9.02","c3":"images/theyuan.png","c4":"2492"},
-            {"c1":"15：00：04","c2":"9.02","c3":"images/theyuan.png","c4":"2492"},
-            {"c1":"15：00：04","c2":"9.02","c3":"images/theyuan.png","c4":"2492"},
-            {"c1":"15：00：04","c2":"9.02","c3":"","c4":"2492"},
-            {"c1":"15：00：04","c2":"9.02","c3":"","c4":"2492"}
-        ]
-    },
-    "dd":{},
-    "fj":{},
-    "bk":{},
-    "fs":{}
-};
+
 var cons = {
-    init:function(){
+    url:'js/interface.js',
+    setUrl:function(obj){
+        var url = this.url;
+            url += url.indexOf('?') > 0 ? '' : '?';
+            url += 'q=';
+            url += obj.join(',');
+        this.url = url;
     },
-    viewHq:function(){},
-    viewMx:function(){},
+    resetUrl:function(){
+        this.url = 'js/interface.js';
+    },
+    bindEvent:function(){
+    },
+    allUrls:function(){
+        this.setUrl(['hq','mx','dd','fj','bk','fx']);
+    },
+    init:function(){
+        this.loadScript();
+    },
+    loadScript:function(){
+
+
+        var url = this.url;
+        $.ajax({
+            url:url,
+            dataType:"text",
+            success:function(data){
+
+                data = eval(data);
+                alert(data);
+                if(data.hq){
+                    this.viewHq();
+                }
+                if(data.mx){
+                    this.viewMx();
+
+                }
+            }
+        })
+    },
+    viewHq:function(){
+        var pageInfo = doT.template(document.getElementById('hqT').text);
+        document.getElementById('hq').innerHTML = pageInfo(model);
+    },
+    viewMx:function(){
+        var pageInfo = doT.template(document.getElementById('mxT').text);
+        document.getElementById('mxDdFj').innerHTML = pageInfo(model);
+    },
     viewDd:function(){},
     viewBk:function(){},
     viewFs:function(){}
-}
+};
+cons.init();
 
